@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  feature-flag:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - PORT
+    ports:
+      - ${PORT}:${PORT}
+    restart: always
