@@ -14,6 +14,7 @@ specifiers:
   '@types/supertest': ^2.0.11
   '@typescript-eslint/eslint-plugin': ^5.0.0
   '@typescript-eslint/parser': ^5.0.0
+  dotenv: ^16.0.1
   eslint: ^8.0.1
   eslint-config-airbnb-base: ^15.0.0
   eslint-config-prettier: ^8.3.0
@@ -38,6 +39,7 @@ dependencies:
   '@nestjs/config': 2.2.0_t6wygpagnzylhnpg25zual64b4
   '@nestjs/core': 9.0.8_ynoyn6d36ot4yn5mj6f7nnecsq
   '@nestjs/platform-express': 9.0.8_cw6o3dkuyuli4a5gq7b223evly
+  dotenv: 16.0.1
   reflect-metadata: 0.1.13
   rimraf: 3.0.2
   rxjs: 7.5.6
