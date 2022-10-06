@@ -8,7 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
-  const port = configService.get('port');
+  const port = configService.get('PORT');
 
   await app.listen(port);
   logger.log(`App started on port ${port}`);
