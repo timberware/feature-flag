@@ -32,3 +32,7 @@
 <button on:click={increment}>
   Clicks: {count}
 </button>
+
+<main>
+	<h1>Hello Feature-Flag!</h1>
+</main>
