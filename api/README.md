@@ -57,7 +57,7 @@ $ pnpm install
 
 ```bash
 # docker
-$ docker-compose --env-file .env.development up --build
+$ docker-compose --env-file env.development up --build
 
 # development
 $ pnpm start:dev
@@ -66,7 +66,7 @@ $ pnpm start:dev
 ## Running the app (production)
 ```bash
 # production mode
-$ docker-compose --env-file .env.production up --build
+$ docker-compose --env-file env.production up --build
 ```
 
 ## Test
