@@ -14,10 +14,11 @@ class FlagsService {
   ) {}
 
   static formatFlags(flags: FlagDocument[]): FlagDto[] {
-    return flags.map(({ name, type, value }) => ({
+    return flags.map(({ name, type, value, environment }) => ({
       name,
       type,
       value,
+      environment,
     }));
   }
 
