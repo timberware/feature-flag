@@ -34,5 +34,5 @@
 </button>
 
 <main>
-	<h1>Hello Feature-Flag!</h1>
+  <h1>Hello Feature-Flag!</h1>
 </main>
