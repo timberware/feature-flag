@@ -1,38 +1,31 @@
 <style>
-  button {
-    font-family: inherit;
-    font-size: inherit;
-    padding: 1em 2em;
-    color: #ff3e00;
-    background-color: rgba(255, 62, 0, 0.1);
-    border-radius: 2em;
-    border: 2px solid rgba(255, 62, 0, 0);
-    outline: none;
-    width: 200px;
-    font-variant-numeric: tabular-nums;
-    cursor: pointer;
+  .header {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    background-color: grey;
   }
-
-  button:focus {
-    border: 2px solid #ff3e00;
-  }
-
-  button:active {
-    background-color: rgba(255, 62, 0, 0.2);
+  .logo {
+    padding-right: 1rem;
   }
 </style>
 
 <script lang="ts">
-  let count = 0
-  const increment = () => {
-    count += 1
-  }
 </script>
-
-<button on:click={increment}>
-  Clicks: {count}
-</button>
 
 <main>
   <h1>Hello Feature-Flag!</h1>
 </main>
+
+<body>
+  <main class="header">
+    <img
+      class="logo"
+      width="40px"
+      height="40px"
+      src="/images/logo.svg"
+      alt="Telescope logo"
+    />
+    <h1 class="title">Feature Flags</h1>
+  </main>
+</body>
