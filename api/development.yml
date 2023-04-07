@@ -1,6 +1,6 @@
 version: '3'
 
-services:  
+services:
   mongodb:
     ports:
       - 27017:27017
@@ -15,7 +15,7 @@ services:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=${MONGO_USER}
       - ME_CONFIG_MONGODB_ADMINPASSWORD=${MONGO_PASS}
     ports:
-      - 127.0.0.1:8081:8081
+      - 8081:8081
     restart: always
     depends_on:
       - mongodb
