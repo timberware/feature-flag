@@ -28,7 +28,6 @@ COPY src src
 COPY tsconfig.build.json .
 COPY tsconfig.json .
 COPY nest-cli.json .
-COPY .env .env
 
 RUN pnpm build
 
