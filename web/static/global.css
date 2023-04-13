@@ -1,17 +1,15 @@
+@import './sweet.css';
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-body {
-  background-color: black;
-  color: white;
   font-family: 'IBM Plex Mono';
+  background-color: var(--theme_bg_color);
+  color: var(--text_color);
 }
 
 main {
   width: 80%;
   margin: 0 auto;
-  background-color: red;
 }
