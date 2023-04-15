@@ -1,0 +1,20 @@
+name: web-ci
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'src/web/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/web/**'
+
+jobs:
+  prettier:
+    uses: funnls/feature-flag/.github/workflows/prettier-ci.yml@master
+
+  eslint:
+    uses: funnls/feature-flag/.github/workflows/eslint-ci.yml@master

@@ -1,0 +1,16 @@
+name: Eslint Workflow
+
+on:
+  workflow_call:
+
+jobs:
+  prettier:
+    name: Eslint Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2.5.1
+      - name: Install dependencies and run eslint check
+        run: |
+          npm install
+          npm run lint

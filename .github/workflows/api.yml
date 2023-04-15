@@ -1,0 +1,20 @@
+name: api-ci
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'src/api/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/api/**'
+
+jobs:
+  prettier:
+    uses: funnls/feature-flag/.github/workflows/prettier-ci.yml@master
+
+  eslint:
+    uses: funnls/feature-flag/.github/workflows/eslint-ci.yml@master
