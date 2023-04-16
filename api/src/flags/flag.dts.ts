@@ -1,8 +1,13 @@
-import { IsNotEmpty, IsIn } from '@nestjs/class-validator';
+import { IsNotEmpty, IsIn, IsString, IsBoolean } from '@nestjs/class-validator';
+import { Types } from 'mongoose';
 import { FlagEnv, FlagType, FlagValueType } from './schemas/flag.schema';
 
 export default class FlagDto {
   @IsNotEmpty()
+  id?: Types.ObjectId;
+
+  @IsNotEmpty()
+  @IsString()
   name!: string;
 
   @IsNotEmpty()
@@ -15,4 +20,8 @@ export default class FlagDto {
   @IsNotEmpty()
   @IsIn(['staging', 'production'])
   environment!: FlagEnv;
+
+  @IsNotEmpty()
+  @IsBoolean()
+  isEnabled?: boolean;
 }

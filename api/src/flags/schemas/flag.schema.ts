@@ -18,6 +18,9 @@ export class Flag {
 
   @Prop({ type: String })
   environment!: FlagEnv;
+
+  @Prop({ type: Boolean, default: true })
+  isEnabled: boolean;
 }
 
 export type FlagDocument = Flag & Document;
