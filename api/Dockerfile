@@ -4,20 +4,18 @@
 # Context: Build Context
 FROM node:lts-alpine as build
 
-RUN npm i -g pnpm
-
 # Set Working Directory Context
 WORKDIR "/feature-flag"
 
 # Copy package files
 COPY package.json .
-COPY pnpm-lock.yaml .
+COPY package-lock.json .
 
 # Context: Dependencies
 FROM build AS dependencies
 
 # Install Modules
-RUN pnpm install
+RUN npm install
 
 # -------------------------------------
 # Context: Builder
@@ -29,7 +27,7 @@ COPY tsconfig.build.json .
 COPY tsconfig.json .
 COPY nest-cli.json .
 
-RUN pnpm build
+RUN npm run build
 
 # -------------------------------------
 # Context: Release
@@ -40,4 +38,4 @@ COPY --from=dependencies /feature-flag/node_modules /feature-flag/node_modules
 COPY --from=builder /feature-flag/dist /feature-flag/dist
 
 # Running feature-flag when the image gets built using a script
-CMD ["sh", "-c", "pnpm start:prod"]
+CMD ["sh", "-c", "npm run start:prod"]
