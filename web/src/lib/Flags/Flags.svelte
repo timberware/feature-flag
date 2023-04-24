@@ -16,18 +16,19 @@
 </style>
 
 <script lang="ts">
-  import Flag from './Flag.svelte';
-  import { onMount } from 'svelte';
   import { env } from '$env/dynamic/public';
+  import { onMount } from 'svelte';
+  import Flag from './Flag.svelte';
 
-  let flags: FlagDataType[] = [];
   let stagingFlags: FlagDataType[] = [];
   let productionFlags: FlagDataType[] = [];
+
+  const sectionHeaders = ['Name', 'Type', 'Value', 'Environment', 'State'];
 
   onMount(async () => {
     try {
       const res = await fetch(`${env.PUBLIC_API_URL}:3000/flags/getflags`);
-      flags = await res.json();
+      const flags: FlagDataType[] = await res.json();
 
       flags.forEach(flag => {
         if (flag.environment === 'staging') {
@@ -36,26 +37,24 @@
           productionFlags.push(flag);
         }
       });
+      stagingFlags = stagingFlags;
+      productionFlags = productionFlags;
     } catch (e) {
       console.error({ e });
     }
-    stagingFlags = stagingFlags;
-    productionFlags = productionFlags;
   });
 </script>
 
 <div class="wrapper">
   <div class="section_header">
-    <span class="section">Name</span>
-    <span class="section">Type</span>
-    <span class="section">Value</span>
-    <span class="section">Environment</span>
-    <span class="section">State</span>
+    {#each sectionHeaders as section}
+      <span class="section">{section}</span>
+    {/each}
   </div>
-  {#each stagingFlags as flag}
+  {#each stagingFlags as flag (flag.id)}
     <Flag flag="{flag}" />
   {/each}
-  {#each productionFlags as flag}
+  {#each productionFlags as flag (flag.id)}
     <Flag flag="{flag}" />
   {/each}
 </div>
