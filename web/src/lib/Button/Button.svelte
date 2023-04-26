@@ -14,8 +14,7 @@
 </style>
 
 <script lang="ts">
-  export let onClick: svelte.JSX.MouseEventHandler<HTMLButtonElement>;
   export let buttonTheme: ThemeVariant = 'primary';
 </script>
 
-<button on:click="{onClick}" class="{buttonTheme}"><slot /></button>
+<button on:click class="{buttonTheme}"><slot /></button>

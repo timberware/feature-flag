@@ -10,9 +10,9 @@
 </script>
 
 <div>
-  <Button onClick="{() => console.log('All button')}">All</Button>
-  <Button onClick="{() => console.log('Staging button')}">Staging</Button>
-  <Button onClick="{() => console.log('Production button')}" buttonTheme="secondary"
+  <Button on:click="{() => console.log('All button')}">All</Button>
+  <Button on:click="{() => console.log('Staging button')}">Staging</Button>
+  <Button on:click="{() => console.log('Production button')}" buttonTheme="secondary"
     >Production</Button
   >
 </div>

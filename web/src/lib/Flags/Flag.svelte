@@ -19,6 +19,7 @@
 <script lang="ts">
   import { env } from '$env/dynamic/public';
   import Button from '$lib/Button/Button.svelte';
+  import Toggle from '$lib/Toggle/Toggle.svelte';
   export let flag: FlagDataType;
 
   const handleClick = async () => {
@@ -55,8 +56,8 @@
   <div class="section">{flag.value}</div>
   <div class="section">{flag.environment}</div>
   <div class="section button-wrapper">
-    <Button onClick="{handleClick}">{flag.isEnabled ? 'Disable' : 'Enable'}</Button>
-    <Button onClick="{() => console.log('Remove button')}" buttonTheme="secondary"
+    <Toggle isEnabled="{flag?.isEnabled}" on:click="{handleClick}" />
+    <Button on:click="{() => console.log('Remove button')}" buttonTheme="secondary"
       >Remove</Button
     >
   </div>
