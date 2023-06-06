@@ -19,11 +19,12 @@
   import { env } from '$env/dynamic/public';
   import { onMount } from 'svelte';
   import Flag from './Flag.svelte';
+  import FlagForm from './FlagForm.svelte';
 
   let stagingFlags: FlagDataType[] = [];
   let productionFlags: FlagDataType[] = [];
 
-  const sectionHeaders = ['Name', 'Type', 'Value', 'Environment', 'State'];
+  const sectionHeaders = ['Name', 'Type', 'Value', 'Environment', 'Status'];
 
   onMount(async () => {
     try {
@@ -51,6 +52,7 @@
       <span class="section">{section}</span>
     {/each}
   </div>
+  <FlagForm />
   {#each stagingFlags as flag (flag.id)}
     <Flag flag="{flag}" />
   {/each}
