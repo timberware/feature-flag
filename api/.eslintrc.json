@@ -1,46 +1,43 @@
-{ 
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-      "project": "tsconfig.json",
-      "tsconfigRootDir": ".",
-      "sourceType": "module"
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "tsconfig.json",
+    "tsconfigRootDir": ".",
+    "sourceType": "module"
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".js"]
     },
-    "settings": {
-      "import/resolver": {
-        "node": {
-          "extensions": [".js", ".ts"],
-          "moduleDirectory": ["node_modules", "src/"]
-        }
+    "import/resolver": {
+      "node": {
+        "extensions": [".ts", ".js"],
+        "moduleDirectory": ["node_modules", "src/"]
+      },
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project": "./tsconfig.json"
       }
-    },
-    "plugins": ["@typescript-eslint/eslint-plugin"],
-    "extends": [
-      "airbnb-base",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:prettier/recommended",
-      "plugin:import/typescript"
-    ],
-    "root": true,
-    "env": {
-      "node": true,
-      "jest": true
-    },
-    "ignorePatterns": [".eslintrc.js"],
-    "rules": {
-      "no-useless-constructor": "off",
-      "class-methods-use-this": "off",
-      "@typescript-eslint/interface-name-prefix": "off",
-      "@typescript-eslint/explicit-function-return-type": "off",
-      "@typescript-eslint/explicit-module-boundary-types": "off",
-      "@typescript-eslint/no-explicit-any": "off",
-      "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
-      "import/extensions": [
-        "error",
-        "ignorePackages",
-        {
-          "js": "never",
-          "ts": "never"
-        }
-      ]
     }
+  },
+  "plugins": ["@typescript-eslint/eslint-plugin", "import"],
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "plugin:import/typescript"
+  ],
+  "root": true,
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "rules": {
+    "import/no-unresolved": "error",
+    "no-useless-constructor": "off",
+    "class-methods-use-this": "off",
+    "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-explicit-any": "off"
+  }
 }
