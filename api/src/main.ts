@@ -1,7 +1,8 @@
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import AppModule from './app.module';
+import { MongoExceptionFilter } from './database/errorHandler';
 
 async function bootstrap() {
   const logger = new Logger('main.ts');
@@ -11,6 +12,9 @@ async function bootstrap() {
   const port = configService.get('PORT');
 
   await app.listen(port);
+  const { httpAdapter } = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new MongoExceptionFilter(httpAdapter));
+
   logger.log(`App started on port ${port}`);
 }
 bootstrap();

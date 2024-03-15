@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, Patch, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Patch,
+  UseGuards,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import FlagsService from './flags.service';
 import FlagDto from './flag.dts';
 import FlagGuard from './flag.guard';
@@ -8,23 +17,30 @@ import EnableGuard from './enable.guard';
 class FlagsController {
   constructor(private readonly flagsService: FlagsService) {}
 
-  @Get('getFlags')
+  @Get('/')
   async getFlags(): Promise<FlagDto[]> {
-    return this.flagsService.findAll();
+    return this.flagsService.get();
   }
 
   @UseGuards(FlagGuard)
-  @Post('saveFlag')
+  @Post('/')
   async saveFlag(@Body() flagRequest: FlagDto): Promise<FlagDto> {
-    return this.flagsService.saveFlag(flagRequest);
+    return this.flagsService.create(flagRequest);
   }
 
   @UseGuards(EnableGuard)
-  @Patch('setEnabled')
-  async setEnabled(
-    @Body() { id, isEnabled }: { id: string; isEnabled: boolean },
+  @Patch('/:id')
+  async toggleEnabled(
+    @Param('id') id: string,
+    @Body() { isEnabled }: { isEnabled: boolean },
   ): Promise<FlagDto | null> {
-    return this.flagsService.setEnabled({ id, isEnabled });
+    return this.flagsService.toggleEnabled(id, isEnabled);
+  }
+
+  @UseGuards(EnableGuard)
+  @Delete('/:id')
+  delete(@Param('id') id: string): void {
+    this.flagsService.delete(id);
   }
 }
 
