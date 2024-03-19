@@ -22,6 +22,6 @@ export default class EnableGuard implements CanActivate {
   }
 
   static checkBodyType(obj: { id: string; isEnabled: boolean }): boolean {
-    return typeof obj?.id === 'string' && typeof obj?.isEnabled === 'boolean';
+    return typeof obj?.isEnabled === 'boolean';
   }
 }

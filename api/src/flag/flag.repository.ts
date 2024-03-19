@@ -5,8 +5,8 @@ import { Model, Types } from 'mongoose';
 import FlagDto from './flag.dts';
 
 @Injectable()
-class FlagsRepository {
-  private readonly logger = new Logger(FlagsRepository.name);
+class FlagRepository {
+  private readonly logger = new Logger(FlagRepository.name);
 
   constructor(
     @InjectModel(Flag.name)
@@ -41,7 +41,6 @@ class FlagsRepository {
   }
 
   async toggleEnabled(id: string, isEnabled: boolean): Promise<FlagDto> {
-    this.db.findById(id);
     const f = await this.db
       .findByIdAndUpdate(
         { _id: new Types.ObjectId(id) },
@@ -53,9 +52,9 @@ class FlagsRepository {
     return this.formatFlags([f])[0];
   }
 
-  delete(id: string): void {
-    this.db.deleteOne({ _id: new Types.ObjectId(id) });
+  async delete(id: string): Promise<void> {
+    await this.db.findByIdAndRemove({ _id: new Types.ObjectId(id) }).orFail();
   }
 }
 
-export default FlagsRepository;
+export default FlagRepository;

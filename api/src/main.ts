@@ -7,14 +7,13 @@ import { MongoExceptionFilter } from './database/errorHandler';
 async function bootstrap() {
   const logger = new Logger('main.ts');
   const app = await NestFactory.create(AppModule, { cors: true });
+  const { httpAdapter } = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new MongoExceptionFilter(httpAdapter));
 
   const configService = app.get(ConfigService);
   const port = configService.get('PORT');
 
   await app.listen(port);
-  const { httpAdapter } = app.get(HttpAdapterHost);
-  app.useGlobalFilters(new MongoExceptionFilter(httpAdapter));
-
   logger.log(`App started on port ${port}`);
 }
 bootstrap();

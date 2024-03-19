@@ -11,6 +11,7 @@ export class MongoExceptionFilter extends BaseExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     this.logger.error(exception.message);
+    console.log('am I here');
 
     let status;
     switch (exception.name) {

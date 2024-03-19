@@ -4,13 +4,13 @@ import AppController from './app.controller';
 import DatabaseModule from './database/database.module';
 import config from './config';
 import AppService from './app.service';
-import FlagsModule from './flags/flags.module';
+import FlagModule from './flag/flag.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ load: [config] }),
     DatabaseModule,
-    FlagsModule,
+    FlagModule,
   ],
   controllers: [AppController],
   providers: [AppService],
