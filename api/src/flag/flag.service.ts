@@ -9,17 +9,15 @@ class FlagService {
   constructor(private repository: FlagRepository) {}
 
   async get(): Promise<FlagDto[]> {
-    const flags = await this.repository.get();
-    this.logger.log({ flags });
+    return await this.repository.get();
+  }
 
-    return flags;
+  async getById(id: string): Promise<FlagDto> {
+    return await this.repository.getById(id);
   }
 
   async create(flag: FlagDto): Promise<FlagDto | never> {
-    const f = await this.repository.create(flag);
-    this.logger.log({ flag: f });
-
-    return f;
+    return await this.repository.create(flag);
   }
 
   toggleEnabled(id: string, isEnabled: boolean): Promise<FlagDto> {

@@ -8,11 +8,11 @@ import {
   Param,
   Delete,
   HttpCode,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import FlagService from './flag.service';
 import FlagDto from './flag.dts';
 import FlagGuard from './flag.guard';
-import EnableGuard from './enable.guard';
 
 @Controller('flags')
 class FlagController {
@@ -24,6 +24,15 @@ class FlagController {
     return this.flagsService.get();
   }
 
+  @Get('/:id')
+  @HttpCode(200)
+  async getFlag(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ): Promise<FlagDto> {
+    console.log({ id });
+    return this.flagsService.getById(id);
+  }
+
   @UseGuards(FlagGuard)
   @HttpCode(201)
   @Post('/')
@@ -31,11 +40,10 @@ class FlagController {
     return this.flagsService.create(flagRequest);
   }
 
-  @UseGuards(EnableGuard)
   @HttpCode(200)
   @Patch('/:id')
   async toggleEnabled(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() { isEnabled }: { isEnabled: boolean },
   ): Promise<FlagDto | null> {
     return this.flagsService.toggleEnabled(id, isEnabled);
@@ -43,7 +51,7 @@ class FlagController {
 
   @Delete('/:id')
   @HttpCode(204)
-  delete(@Param('id') id: string): void {
+  delete(@Param('id', ParseUUIDPipe) id: string): void {
     this.flagsService.delete(id);
   }
 }

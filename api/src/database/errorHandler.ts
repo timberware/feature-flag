@@ -2,16 +2,16 @@ import { ArgumentsHost, Catch, HttpStatus, Logger } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { Response } from 'express';
 import { MongoError } from 'mongodb';
+import { MongooseError } from 'mongoose';
 
-@Catch(MongoError)
+@Catch(MongooseError)
 export class MongoExceptionFilter extends BaseExceptionFilter {
   private readonly logger = new Logger(MongoExceptionFilter.name);
 
   catch(exception: MongoError, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    this.logger.error(exception.message);
-    console.log('am I here');
+    this.logger.error(exception.name);
 
     let status;
     switch (exception.name) {
@@ -24,7 +24,6 @@ export class MongoExceptionFilter extends BaseExceptionFilter {
 
         break;
       }
-      case 'MongooseError':
       case 'CastError':
       case 'DisconnectedError':
       case 'DivergentArrayError':
