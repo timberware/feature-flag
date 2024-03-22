@@ -13,4 +13,4 @@ const { HOST, USER, PASS, DB } = MONGO;
     }),
   ],
 })
-export default class DatabaseModule {}
+export default class MongoDB {}
