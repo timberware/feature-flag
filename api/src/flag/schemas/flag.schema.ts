@@ -34,4 +34,4 @@ export type FlagDocument = Flag & Document;
 
 export const FlagSchema = SchemaFactory.createForClass(Flag);
 
-FlagSchema.index({ name: 1, environment: 1 }, { unique: true });
+FlagSchema.index({ name: 1, environment: 1, project: 1 }, { unique: true });
