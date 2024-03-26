@@ -4,8 +4,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: '#0f0f0f',
-        text: '#f7f7f7',
+        background: '#243119',
+        text: '#c9f2c7',
         primary: '#999999',
         secondary: '#1f1f1f',
         accent: '#858585'
@@ -20,3 +20,11 @@ export default {
   },
   plugins: []
 };
+
+/*
+ * c9f2c7 Tea green
+ * aceca1 Light green
+ * 96be8c Olivine
+ * 629460 Asparagus
+ * 243119 Dark green
+ * */
