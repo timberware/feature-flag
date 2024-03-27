@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Flag, FlagDocument } from './schemas/flag.schema';
 import { Model, Types } from 'mongoose';
 import FlagDto from './flag.dts';
+import QueryDto from './query.dts';
+import { cleanObject } from '../common';
 
 @Injectable()
 class FlagRepository {
@@ -11,20 +13,6 @@ class FlagRepository {
     private db: Model<FlagDocument>,
   ) {}
 
-  private formatFlags(flags: FlagDocument[]): FlagDto[] {
-    return flags.map(
-      ({ _id, name, type, value, environment, project, isEnabled }) => ({
-        id: _id as Types.ObjectId,
-        name,
-        type,
-        value,
-        environment,
-        project,
-        isEnabled,
-      }),
-    );
-  }
-
   async create(flag: FlagDto): Promise<FlagDto> {
     const newFlag = new this.db(flag);
     const f = await newFlag.save();
@@ -32,8 +20,8 @@ class FlagRepository {
     return this.formatFlags([f])[0];
   }
 
-  async get(): Promise<FlagDto[]> {
-    const fs = await this.db.find();
+  async get(q: QueryDto): Promise<FlagDto[]> {
+    const fs = await this.db.find(cleanObject<QueryDto>(q));
 
     return this.formatFlags(fs);
   }
@@ -54,6 +42,20 @@ class FlagRepository {
 
   async delete(id: string): Promise<void> {
     await this.db.findByIdAndRemove(id).orFail();
+  }
+
+  private formatFlags(flags: FlagDocument[]): FlagDto[] {
+    return flags.map(
+      ({ _id, name, type, value, environment, project, isEnabled }) => ({
+        id: _id as Types.ObjectId,
+        name,
+        type,
+        value,
+        environment,
+        project,
+        isEnabled,
+      }),
+    );
   }
 }
 

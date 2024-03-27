@@ -6,6 +6,7 @@ import {
   Patch,
   UseGuards,
   Param,
+  Query,
   Delete,
   HttpCode,
   HttpStatus,
@@ -13,6 +14,7 @@ import {
 } from '@nestjs/common';
 import FlagService from './flag.service';
 import FlagDto from './flag.dts';
+import QueryDto from './query.dts';
 import FlagGuard from './flag.guard';
 
 @Controller('flags')
@@ -21,8 +23,8 @@ class FlagController {
 
   @Get('/')
   @HttpCode(HttpStatus.OK)
-  async getFlags(): Promise<FlagDto[]> {
-    return this.flagsService.get();
+  async getFlags(@Query() query: QueryDto): Promise<FlagDto[]> {
+    return this.flagsService.get(query);
   }
 
   @Get('/:id')

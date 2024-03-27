@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import FlagDto from './flag.dts';
+import QueryDto from './query.dts';
 import FlagRepository from './flag.repository';
 
 @Injectable()
@@ -8,8 +9,8 @@ class FlagService {
 
   constructor(private repository: FlagRepository) {}
 
-  async get(): Promise<FlagDto[]> {
-    return await this.repository.get();
+  async get(q: QueryDto): Promise<FlagDto[]> {
+    return await this.repository.get(q);
   }
 
   async getById(id: string): Promise<FlagDto> {
