@@ -1,5 +1,5 @@
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import AppModule from './app.module';
 import { MongoExceptionFilter } from './mongo/mongoErrorHandler';
@@ -9,6 +9,13 @@ async function bootstrap() {
   const logger = new Logger('main.ts');
   const app = await NestFactory.create(AppModule, { cors: true });
   const { httpAdapter } = app.get(HttpAdapterHost);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      enableDebugMessages: true,
+      transform: true,
+    }),
+  );
   app.useGlobalFilters(new MongoExceptionFilter(httpAdapter));
   app.useGlobalFilters(new MongooseExceptionFilter(httpAdapter));
 

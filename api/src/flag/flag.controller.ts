@@ -8,6 +8,7 @@ import {
   Param,
   Delete,
   HttpCode,
+  HttpStatus,
   ParseUUIDPipe,
 } from '@nestjs/common';
 import FlagService from './flag.service';
@@ -19,13 +20,13 @@ class FlagController {
   constructor(private readonly flagsService: FlagService) {}
 
   @Get('/')
-  @HttpCode(200)
+  @HttpCode(HttpStatus.OK)
   async getFlags(): Promise<FlagDto[]> {
     return this.flagsService.get();
   }
 
   @Get('/:id')
-  @HttpCode(200)
+  @HttpCode(HttpStatus.OK)
   async getFlag(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
   ): Promise<FlagDto> {
@@ -34,13 +35,13 @@ class FlagController {
   }
 
   @UseGuards(FlagGuard)
-  @HttpCode(201)
+  @HttpCode(HttpStatus.CREATED)
   @Post('/')
   async saveFlag(@Body() flagRequest: FlagDto): Promise<FlagDto> {
     return this.flagsService.create(flagRequest);
   }
 
-  @HttpCode(200)
+  @HttpCode(HttpStatus.OK)
   @Patch('/:id')
   async toggleEnabled(
     @Param('id', ParseUUIDPipe) id: string,
@@ -50,7 +51,7 @@ class FlagController {
   }
 
   @Delete('/:id')
-  @HttpCode(204)
+  @HttpCode(HttpStatus.NO_CONTENT)
   delete(@Param('id', ParseUUIDPipe) id: string): void {
     this.flagsService.delete(id);
   }
