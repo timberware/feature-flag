@@ -1,13 +1,13 @@
-export type FlagType = 'boolean' | 'string' | 'number';
+export type FlagTypes = 'boolean' | 'string' | 'number';
 export type FlagValueType = boolean | string | number;
 export type FlagEnv = 'staging' | 'production';
 
-export type Flag = {
+export type FlagType = {
   id?: string;
   name: string;
-  type: FlagType;
+  type: FlagTypes;
   value: FlagValueType;
   environment: FlagEnv;
   project: string;
-  isEnabled?: boolean;
+  isEnabled: boolean;
 };

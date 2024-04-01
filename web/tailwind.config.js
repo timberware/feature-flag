@@ -4,17 +4,19 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: '#243119',
-        text: '#c9f2c7',
-        primary: '#999999',
-        secondary: '#1f1f1f',
-        accent: '#858585'
-      },
-      brightness: {
-        25: '.25'
+        background: '#191a1c',
+        text: '#abb2bf',
+        red: '#e06c75',
+        green: '#98c379',
+        yellow: '#e5c07b',
+        blue: '#61afef',
+        pink: '#c678dd',
+        turquois: '#56b6c2',
+        customGray: '#282c34'
       },
       fontFamily: {
-        mono: 'CourierPrime, courier'
+        mono: ['CourierPrime, courier'],
+        display: 'Trocchi'
       }
     }
   },
@@ -27,4 +29,15 @@ export default {
  * 96be8c Olivine
  * 629460 Asparagus
  * 243119 Dark green
+ *
+ * One Dark
+ * black     #191a1c
+ * dark gray #282c34
+ * red       #e06c75
+ * green     #98c379
+ * yellow    #e5c07b
+ * blue      #61afef
+ * pink      #c678dd
+ * turquois  #56b6c2
+ * gray      #abb2bf
  * */

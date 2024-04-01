@@ -7,9 +7,15 @@
   src: url('./CourierPrime-Regular.ttf');
 }
 
+@font-face {
+  font-family: 'Trocchi';
+  src: url('./Trocchi-Regular.ttf');
+}
+
 @layer base {
   html {
-    font-family: 'CourierPrime';
+    /* font-family: 'CourierPrime'; */
+    font-family: 'Trocchi';
   }
 }
 
