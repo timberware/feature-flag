@@ -6,6 +6,7 @@ export default {
       colors: {
         background: '#191a1c',
         text: '#abb2bf',
+        'hover-text': '#cccccc',
         red: '#e06c75',
         green: '#98c379',
         yellow: '#e5c07b',

@@ -7,8 +7,16 @@
 </script>
 
 <Container>
-  <Cell>{`${flag.name}`}</Cell>
-  <Cell>{`${flag.type}`}</Cell>
-  <Cell>{`${flag.value}`}</Cell>
-  <Cell>{`${flag.isEnabled}`}</Cell>
-</Container>
+  <div class="w-1/4">
+    <Cell>{`${flag.name}`}</Cell>
+  </div>
+  <div class="w-1/4">
+    <Cell>{`${flag.type}`}</Cell>
+  </div>
+  <div class="w-1/4">
+    <Cell>{`${flag.value}`}</Cell>
+  </div>
+  <div class="w-1/4">
+    <Cell>{`${flag.isEnabled}`}</Cell>
+  </div></Container
+>

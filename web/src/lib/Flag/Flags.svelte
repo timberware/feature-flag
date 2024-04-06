@@ -1,23 +1,48 @@
 <script lang="ts">
+  import type { FlagType } from '../../ambient';
+  import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+  import IconButton from '$lib/IconButton.svelte';
   import Select from '$lib/Select.svelte';
   import Flag from '$lib/Flag/Flag.svelte';
   import MainContainer from '$lib/Flag/components/MainContainer.svelte';
   import Header from '$lib/Flag/components/Header.svelte';
   import FlagTop from '$lib/Flag/FlagTop.svelte';
-  import type { FlagType } from '../../ambient';
+  import AddFlag from '$lib/Flag/AddFlag.svelte';
 
   export let flags: FlagType[];
 
+  let selectedProject: string;
+  let selectedEnv: string;
+  let showModal: boolean;
+
   const options = [
-    { name: 'Staging', value: 'staging' },
-    { name: 'Production', value: 'production' }
+    { name: 'Staging', val: 'staging' },
+    { name: 'Production', val: 'production' }
   ];
 </script>
 
 <MainContainer>
   <Header>
-    <Select items="{options}" placeholder="Select Project" />
-    <Select items="{options}" placeholder="Select Env" />
+    <Select
+      name="project"
+      items="{options}"
+      v="{selectedProject}"
+      placeholder="Select Project"
+    />
+    <Select
+      name="environment"
+      items="{options}"
+      v="{selectedEnv}"
+      placeholder="Select Env"
+    />
+    <IconButton
+      on:click="{() => {
+        showModal = true;
+      }}"
+      type="button"
+      classes="min-h-full"
+      icon="{faPlusCircle}"
+    />
   </Header>
   <FlagTop />
   <ul>
@@ -26,3 +51,5 @@
     {/each}
   </ul>
 </MainContainer>
+
+<AddFlag bind:showModal />
