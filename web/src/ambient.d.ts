@@ -11,3 +11,8 @@ export type FlagType = {
   project: string;
   isEnabled: boolean;
 };
+
+export type SelectOptionType = {
+  name: string;
+  val: string;
+};

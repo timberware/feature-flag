@@ -1,26 +1,6 @@
 import { redirect, error } from '@sveltejs/kit';
 import { API_HOST } from '$env/static/private';
 
-/** @type {import('./$types').PageServerLoad} */
-export const load = async ({ fetch }) => {
-  let status = 404;
-
-  try {
-    const response = await fetch(
-      `${process.env.API_HOST || API_HOST || 'http://localhost:3000'}/flags`,
-      {
-        method: 'GET'
-      }
-    );
-    const flags = await response.json();
-    status = response.status;
-
-    return { flags, status };
-  } catch (e) {
-    console.error(e);
-  }
-};
-
 /** @type {import('./$types').Actions} */
 export const actions = {
   create: async ({ request, fetch }: RequestEvent) => {
@@ -49,6 +29,14 @@ export const actions = {
       processedValue = value === 'true';
     }
 
+    const flag = {
+      name,
+      type,
+      value: processedValue,
+      environment,
+      project
+    };
+
     try {
       const response = await fetch(
         `${process.env.API_HOST || API_HOST || 'http://localhost:3000/flags'}`,
@@ -57,13 +45,7 @@ export const actions = {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({
-            name,
-            type,
-            processedValue,
-            environment,
-            project
-          })
+          body: JSON.stringify(flag)
         }
       );
 

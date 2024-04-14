@@ -15,8 +15,6 @@
   let value: string;
   let environment: string;
   let project: string;
-
-  $: console.log({ type });
 </script>
 
 <Modal bind:showModal>
