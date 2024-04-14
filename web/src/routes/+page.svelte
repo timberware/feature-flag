@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+  import { faPlusCircle, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
   import Header from '$lib/Header.svelte';
   import MainContainer from '$lib/Flag/components/MainContainer.svelte';
   import IconButton from '$lib/IconButton.svelte';
@@ -24,17 +24,17 @@
   let projects: SelectOptionType[];
   const getFlags = async () => {
     const newFlags = await fetch(
-      `/flags?project=${selectedProject}&environment${selectedEnv}`,
+      `/flags?project=${selectedProject}&environment=${selectedEnv}`,
       {
         method: 'GET'
       }
     );
 
-    return await newFlags.json();
+    flags = await newFlags.json();
   };
 
   onMount(async () => {
-    flags = await getFlags();
+    await getFlags();
 
     if (flags?.length) {
       const p = [...new Set(flags.map((f: FlagType) => f.project))];
@@ -48,27 +48,54 @@
   <MainContainer>
     {#if flags}
       <FlagHeader>
-        <Select
-          name="project"
-          items="{projects}"
-          v="{selectedProject}"
-          placeholder="Select Project"
-          on:change="{getFlags}"
-        />
-        <Select
-          name="environment"
-          items="{options}"
-          v="{selectedEnv}"
-          placeholder="Select Env"
-          on:change="{getFlags}"
-        />
+        <div>
+          <Select
+            name="project"
+            items="{projects}"
+            bind:v="{selectedProject}"
+            placeholder="Select Project"
+            on:change="{getFlags}"
+          />
+          {#if selectedProject}
+            <IconButton
+              on:click="{() => {
+                selectedProject = '';
+                getFlags();
+              }}"
+              type="button"
+              classes="px-1"
+              icon="{faCircleXmark}"
+            />
+          {/if}
+        </div>
+        <div>
+          <Select
+            name="environment"
+            items="{options}"
+            bind:v="{selectedEnv}"
+            placeholder="Select Env"
+            on:change="{getFlags}"
+          />
+          {#if selectedEnv}
+            <IconButton
+              on:click="{() => {
+                selectedEnv = '';
+                getFlags();
+              }}"
+              type="button"
+              classes="px-1"
+              icon="{faCircleXmark}"
+            />
+          {/if}
+        </div>
         <IconButton
           on:click="{() => {
             showModal = true;
           }}"
           type="button"
-          classes="min-h-full"
           icon="{faPlusCircle}"
+          tooltip="Add a flag"
+          classes="pl-3 border-solid border-l-2 border-text"
         />
       </FlagHeader>
       <FlagTop />

@@ -14,7 +14,7 @@ export const GET = async ({ url }) => {
   let queryParams = '';
 
   for (const param in query) {
-    if (query[param] && query[param] !== 'undefined') {
+    if (query[param] && !['null', 'undefined'].includes(query[param])) {
       queryParams += `${param}=${query[param]}&`;
       includeQP = true;
     }
@@ -24,7 +24,6 @@ export const GET = async ({ url }) => {
   if (includeQP) {
     api += `?${queryParams}`;
   }
-
   const response = await fetch(api, {
     method: 'GET',
     headers: {

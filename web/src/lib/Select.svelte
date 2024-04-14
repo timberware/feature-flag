@@ -11,9 +11,9 @@
 
 <select
   class="text-text px-2 py-1 bg-customGray border border-black rounded-lg focus:ring-red focus:border-yellow"
-  on:change
-  bind:value="{v}"
   {name}
+  bind:value="{v}"
+  on:change
 >
   <option value="" disabled selected>{placeholder}</option>
   {#each items as { val, name }}

@@ -11,6 +11,10 @@
 </script>
 
 <button class="{`has-tooltip ${classes}`}" {type} on:click>
-  <span class="tooltip rounded-lg bg-background text-text p-2 mt-5 -ml-5">{tooltip}</span>
+  {#if tooltip}
+    <span class="tooltip rounded-lg bg-background text-text p-2 mt-5 -ml-5"
+      >{tooltip}</span
+    >
+  {/if}
   <FontAwesomeIcon class="text-text hover:text-hover-text text-2xl" {icon} /></button
 >
