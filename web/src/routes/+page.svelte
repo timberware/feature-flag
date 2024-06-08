@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import type { ActionResult } from '@sveltejs/kit';
+  import { applyAction, enhance } from '$app/forms';
   import { faPlusCircle, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
   import Header from '$lib/Header.svelte';
   import MainContainer from '$lib/Flag/components/MainContainer.svelte';
@@ -14,79 +15,85 @@
   let selectedProject: string;
   let selectedEnv: string;
   let showModal: boolean;
-  let flags: FlagType[] | null;
+
+  /** @type {import('./$types').ActionData} */
+  export let getForm;
+
+  export let data: { flags: FlagType[]; projects: SelectOptionType[] };
+  const { flags, projects } = data;
 
   const options = [
     { name: 'Staging', val: 'staging' },
     { name: 'Production', val: 'production' }
   ];
 
-  let projects: SelectOptionType[];
-  const getFlags = async () => {
-    const newFlags = await fetch(
-      `/flags?project=${selectedProject}&environment=${selectedEnv}`,
-      {
-        method: 'GET'
+  $: displayedFlags = flags;
+
+  const handleForm = ({ formData }: { formData: FormData }) => {
+    formData.set('project', selectedProject);
+    formData.set('environment', selectedEnv);
+
+    return async ({ result }: { result: ActionResult }) => {
+      if (result.type === 'success') {
+        const { data } = result;
+
+        if (data?.flags) {
+          displayedFlags = data?.flags;
+        }
       }
-    );
-
-    flags = await newFlags.json();
+      await applyAction(result);
+    };
   };
-
-  onMount(async () => {
-    await getFlags();
-
-    if (flags?.length) {
-      const p = [...new Set(flags.map((f: FlagType) => f.project))];
-      projects = p.map(pj => ({ name: pj, val: pj }));
-    }
-  });
 </script>
 
 <main>
+  <form method="POST" action="?/get" bind:this="{getForm}" use:enhance="{handleForm}">
+    <input type="hidden" name="environment" />
+    <input type="hidden" name="project" />
+  </form>
   <Header />
   <MainContainer>
     {#if flags}
       <FlagHeader>
-        <div>
-          <Select
-            name="project"
-            items="{projects}"
-            bind:v="{selectedProject}"
-            placeholder="Select Project"
-            on:change="{getFlags}"
-          />
-          {#if selectedProject}
-            <IconButton
-              on:click="{() => {
-                selectedProject = '';
-                getFlags();
-              }}"
-              type="button"
-              classes="px-1"
-              icon="{faCircleXmark}"
+        <div class="flex gap-x-4">
+          <div>
+            <Select
+              on:change="{() => getForm.requestSubmit()}"
+              name="project"
+              items="{projects}"
+              bind:v="{selectedProject}"
+              placeholder="Project"
             />
-          {/if}
-        </div>
-        <div>
-          <Select
-            name="environment"
-            items="{options}"
-            bind:v="{selectedEnv}"
-            placeholder="Select Env"
-            on:change="{getFlags}"
-          />
-          {#if selectedEnv}
-            <IconButton
-              on:click="{() => {
-                selectedEnv = '';
-                getFlags();
-              }}"
-              type="button"
-              classes="px-1"
-              icon="{faCircleXmark}"
+            {#if selectedProject}
+              <IconButton
+                on:click="{() => {
+                  selectedProject = '';
+                  getForm.requestSubmit();
+                }}"
+                type="button"
+                icon="{faCircleXmark}"
+              />
+            {/if}
+          </div>
+          <div>
+            <Select
+              on:change="{() => getForm.requestSubmit()}"
+              name="environment"
+              items="{options}"
+              bind:v="{selectedEnv}"
+              placeholder="Environment"
             />
-          {/if}
+            {#if selectedEnv}
+              <IconButton
+                on:click="{() => {
+                  selectedEnv = '';
+                  getForm.requestSubmit();
+                }}"
+                type="button"
+                icon="{faCircleXmark}"
+              />
+            {/if}
+          </div>
         </div>
         <IconButton
           on:click="{() => {
@@ -95,11 +102,10 @@
           type="button"
           icon="{faPlusCircle}"
           tooltip="Add a flag"
-          classes="pl-3 border-solid border-l-2 border-text"
         />
       </FlagHeader>
       <FlagTop />
-      <Flags {flags} />
+      <Flags flags="{displayedFlags}" />
     {/if}
   </MainContainer>
 </main>

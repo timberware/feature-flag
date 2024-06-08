@@ -1,3 +1,3 @@
-<div class="container flex w-1/2 justify-left gap-5 py-2">
+<div class="container flex justify-between py-1">
   <slot />
 </div>

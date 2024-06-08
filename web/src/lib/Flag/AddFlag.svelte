@@ -1,8 +1,10 @@
 <script lang="ts">
+  import { invalidate } from '$app/navigation';
   import Input from '$lib/Flag/components/Input.svelte';
   import Select from '$lib/Select.svelte';
   import Cell from '$lib/Flag/components/Cell.svelte';
   import Modal from '$lib/Modal.svelte';
+  import { applyAction, enhance } from '$app/forms';
 
   const options = [
     { name: 'String', val: 'string' },
@@ -19,7 +21,18 @@
 
 <Modal bind:showModal>
   <div class="rounded-xl bg-background p-8 mx-auto">
-    <form method="POST" action="?/create">
+    <form
+      method="POST"
+      action="?/create"
+      use:enhance="{() => {
+        return async ({ result }) => {
+          if (result.type === 'success') {
+            invalidate('/');
+          }
+          await applyAction(result);
+        };
+      }}"
+    >
       <div class="w-96 bg-background rounded-md">
         <Input
           labelName="Name"

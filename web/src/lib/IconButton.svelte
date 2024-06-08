@@ -10,7 +10,7 @@
   export let icon: any;
 </script>
 
-<button class="{`has-tooltip ${classes}`}" {type} on:click>
+<button class="{`has-tooltip ${classes}`} px-1" {type} on:click>
   {#if tooltip}
     <span class="tooltip rounded-lg bg-background text-text p-2 mt-5 -ml-5"
       >{tooltip}</span
