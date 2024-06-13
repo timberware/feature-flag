@@ -11,7 +11,7 @@ class FlagRepository {
   constructor(
     @InjectModel(Flag.name)
     private db: Model<FlagDocument>,
-  ) {}
+  ) { }
 
   async create(flag: FlagDto): Promise<FlagDto> {
     const newFlag = new this.db(flag);
@@ -21,7 +21,7 @@ class FlagRepository {
   }
 
   async get(q: QueryDto): Promise<FlagDto[]> {
-    const fs = await this.db.find(cleanObject<QueryDto>(q));
+    const fs = await this.db.find(cleanObject<QueryDto>(q)).sort({ timestamp: -1 });
 
     return this.formatFlags(fs);
   }

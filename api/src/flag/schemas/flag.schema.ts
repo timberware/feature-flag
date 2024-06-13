@@ -6,7 +6,7 @@ export type FlagType = 'boolean' | 'string' | 'number';
 export type FlagValueType = string | number | boolean;
 export type FlagEnv = 'staging' | 'production';
 
-@Schema()
+@Schema({ timestamps: true })
 export class Flag {
   @Prop({ type: String, default: () => uuidv4() })
   _id: string;

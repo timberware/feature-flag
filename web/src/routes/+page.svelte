@@ -14,7 +14,7 @@
 
   let selectedProject: string;
   let selectedEnv: string;
-  let showModal: boolean;
+  let showFlagModal: boolean = false;
 
   /** @type {import('./$types').ActionData} */
   export let getForm;
@@ -97,7 +97,7 @@
         </div>
         <IconButton
           on:click="{() => {
-            showModal = true;
+            showFlagModal = true;
           }}"
           type="button"
           icon="{faPlusCircle}"
@@ -110,4 +110,4 @@
   </MainContainer>
 </main>
 
-<AddFlag bind:showModal />
+<AddFlag bind:shouldShowModal="{showFlagModal}" />

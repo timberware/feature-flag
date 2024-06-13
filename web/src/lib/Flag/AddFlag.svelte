@@ -11,7 +11,7 @@
     { name: 'Number', val: 'number' },
     { name: 'Boolean', val: 'boolean' }
   ];
-  export let showModal: boolean;
+  export let shouldShowModal: boolean;
   let name: string;
   let type: string;
   let value: string;
@@ -19,7 +19,7 @@
   let project: string;
 </script>
 
-<Modal bind:showModal>
+<Modal bind:showModal="{shouldShowModal}">
   <div class="rounded-xl bg-background p-8 mx-auto">
     <form
       method="POST"
@@ -28,6 +28,7 @@
         return async ({ result }) => {
           if (result.type === 'success') {
             invalidate('/');
+            shouldShowModal = false;
           }
           await applyAction(result);
         };

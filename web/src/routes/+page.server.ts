@@ -36,7 +36,7 @@ export const actions = {
     const environment = data.get('environment') as string;
     const project = data.get('project') as string;
 
-    let processedValue: FlagValueType;
+    let processedValue: FlagValueType = value;
 
     if (type === 'number') {
       processedValue = +value;
@@ -63,7 +63,7 @@ export const actions = {
     };
 
     try {
-      const response = await fetch(API_HOST, {
+      const response = await fetch(API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -72,13 +72,11 @@ export const actions = {
       });
 
       if (response.status !== 201) {
-        return;
+        return fail(401);
       }
     } catch (e) {
       console.error(e);
     }
-
-    redirect(302, '/');
   },
   get: async ({ request, fetch }: RequestEvent) => {
     const data = await request.formData();
