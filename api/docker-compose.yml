@@ -2,8 +2,6 @@ version: '3'
 
 services:
   mongodb:
-    # Use this for armv8
-    # image: mongo:4.2.18
     image: mongo:latest
     environment:
       - TZ
