@@ -20,7 +20,21 @@ func SetupRoutes() *gin.Engine {
 }
 
 func getFlags(c *gin.Context) {
+	var query models.QueryDto
+	err := c.ShouldBindQuery(&query)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "bad request"})
+		return
+	}
 
+	flags, err := service.Get(query)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, flags)
+	return
 }
 
 func getFlag(c *gin.Context) {
@@ -39,7 +53,7 @@ func saveFlag(c *gin.Context) {
 
 	err := c.BindJSON(&requestBody)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request body"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "bad request"})
 		return
 	}
 
@@ -54,9 +68,32 @@ func saveFlag(c *gin.Context) {
 }
 
 func toggleEnabled(c *gin.Context) {
+	id := c.Param("id")
+	var requestBody models.FlagRequest
 
+	err := c.BindJSON(&requestBody)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "bad request"})
+		return
+	}
+
+	flag, err := service.ToggleEnabled(id, requestBody.IsEnabled)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, flag)
 }
 
 func deleteFlag(c *gin.Context) {
+	id := c.Param("id")
 
+	err := service.DeleteFlag(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.Status(http.StatusNoContent)
 }

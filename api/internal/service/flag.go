@@ -15,8 +15,13 @@ func init() {
 	validate = validator.New()
 }
 
-func Get(c *gin.Context) {
+func Get(query models.QueryDto) ([]models.Flag, error) {
+	flags, err := repository.Get(query)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get flags: %w", err)
+	}
 
+	return flags, nil
 }
 
 func GetById(c *gin.Context) (models.Flag, error) {
@@ -63,10 +68,30 @@ func Create(req models.FlagRequest) (models.Flag, error) {
 	return flag, nil
 }
 
-func ToggleEnabled(c *gin.Context) {
+func ToggleEnabled(idStr string, isEnabled bool) (models.Flag, error) {
+	id, err := uuid.Parse(idStr)
+	if err != nil {
+		return models.Flag{}, fmt.Errorf("invalid UUID: %w", err)
+	}
 
+	flag, err := repository.ToggleEnabled(id, isEnabled)
+	if err != nil {
+		return models.Flag{}, fmt.Errorf("failed to toggle enabled: %w", err)
+	}
+
+	return flag, nil
 }
 
-func DeleteFlag(c *gin.Context) {
+func DeleteFlag(idStr string) error {
+	id, err := uuid.Parse(idStr)
+	if err != nil {
+		return fmt.Errorf("invalid UUID: %w", err)
+	}
 
+	err = repository.DeleteFlag(id)
+	if err != nil {
+		return fmt.Errorf("failed to delete flag: %w", err)
+	}
+
+	return nil
 }
